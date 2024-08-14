@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .resume-output {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        h4 {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        p, ul {
+            margin: 5px 0;
+        }
+        img {
+            max-width: 150px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .form-control, .form-select {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Resume Builder</h1>
+        <form id="resume-form" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="profilePicture" class="form-label">Profile Picture</label>
+                <input type="file" class="form-control" id="profilePicture" accept="image/*" required>
+                <div class="invalid-feedback">Please upload a profile picture.</div>
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter your full name" required>
+                <div class="invalid-feedback">Please enter your full name.</div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                <div class="invalid-feedback">Please enter a valid email.</div>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="phone" placeholder="Enter your phone number" required>
+                <div class="invalid-feedback">Please enter your phone number.</div>
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" class="form-control" id="address" placeholder="Enter your address" required>
+                <div class="invalid-feedback">Please enter your address.</div>
+            </div>
+            <div class="mb-3">
+                <label for="socialMedia" class="form-label">Social Media Links</label>
+                <input type="text" class="form-control" id="socialMedia" placeholder="Enter your social media links separated by commas" required>
+                <div class="invalid-feedback">Please enter your social media links.</div>
+            </div>
+            <div class="mb-3">
+                <label for="personalDescription" class="form-label">Personal Description</label>
+                <textarea class="form-control" id="personalDescription" rows="3" placeholder="Describe yourself" required></textarea>
+                <div class="invalid-feedback">Please enter a personal description.</div>
+            </div>
+            <div class="mb-3">
+                <label for="softSkills" class="form-label">Soft Skills</label>
+                <textarea class="form-control" id="softSkills" rows="3" placeholder="Enter your soft skills, separated by commas" required></textarea>
+                <div class="invalid-feedback">Please enter your soft skills.</div>
+            </div>
+            <div class="mb-3">
+                <label for="skills" class="form-label">Technical Skills</label>
+                <textarea class="form-control" id="skills" rows="3" placeholder="Enter your technical skills, separated by commas" required></textarea>
+                <div class="invalid-feedback">Please enter your technical skills.</div>
+            </div>
+            <div class="mb-3">
+                <label for="certificates" class="form-label">Certificates</label>
+                <textarea class="form-control" id="certificates" rows="3" placeholder="List your certificates, separated by commas" required></textarea>
+                <div class="invalid-feedback">Please enter your certificates.</div>
+            </div>
+            <div class="mb-3">
+                <label for="involvement" class="form-label">Involvement</label>
+                <textarea class="form-control" id="involvement" rows="3" placeholder="List your involvements or activities, separated by commas" required></textarea>
+                <div class="invalid-feedback">Please enter your involvement.</div>
+            </div>
+            <div class="mb-3">
+                <label for="hasExperience" class="form-label">Do you have work experience?</label>
+                <select class="form-select" id="hasExperience" onchange="toggleExperienceFields()" required>
+                    <option value="">Select...</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+                <div class="invalid-feedback">Please select an option.</div>
+            </div>
+            <div id="experience-fields" style="display: none;">
+                <div id="experience-container">
+                    <div class="experience-item mb-3">
+                        <label for="jobType" class="form-label">Job Type</label>
+                        <select class="form-select" required>
+                            <option value="full-time">Full-Time</option>
+                            <option value="part-time">Part-Time</option>
+                            <option value="contract">Contract</option>
+                        </select>
+                        <div class="invalid-feedback">Please select your job type.</div>
+                    </div>
+                    <div class="experience-item mb-3">
+                        <label for="duration" class="form-label">Duration (e.g., 2 years)</label>
+                        <input type="text" class="form-control" placeholder="Enter the duration" required>
+                        <div class="invalid-feedback">Please enter the duration of your job.</div>
+                    </div>
+                    <div class="experience-item mb-3">
+                        <label for="experienceDescription" class="form-label">Work Description</label>
+                        <textarea class="form-control" rows="3" placeholder="Describe your work experience" required></textarea>
+                        <div class="invalid-feedback">Please enter a description of your work experience.</div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary mb-3" onclick="addExperience()">Add Another Experience</button>
+            </div>
+            <div class="mb-3">
+                <label for="educationFields" class="form-label">Education</label>
+                <div id="education-container">
+                    <div class="education-item mb-3">
+                        <label for="educationYear" class="form-label">Year</label>
+                        <input type="text" class="form-control mb-2" placeholder="Enter the year" required>
+                        <label for="educationType" class="form-label">Type of Education</label>
+                        <input type="text" class="form-control mb-2" placeholder="Enter the type of education" required>
+                        <label for="educationPlace" class="form-label">Place of Education</label>
+                        <input type="text" class="form-control mb-2" placeholder="Enter the place of education" required>
+                        <label for="educationResult" class="form-label">Result</label>
+                        <input type="text" class="form-control mb-2" placeholder="Enter the result" required>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="addEducation()">Add Another Education</button>
+            </div>
+            <button type="button" class="btn btn-primary w-100 mb-3" onclick="generateResume()">Generate Resume</button>
+            <button type="button" class="btn btn-success w-100" onclick="downloadResume()">Download PDF</button>
+        </form>
+        <div id="resume-output" class="resume-output"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        function toggleExperienceFields() {
+            const experienceFields = document.getElementById('experience-fields');
+            experienceFields.style.display = document.getElementById('hasExperience').value === 'yes' ? 'block' : 'none';
+        }
+
+        function addExperience() {
+            const experienceContainer = document.getElementById('experience-container');
+            const newExperience = document.createElement('div');
+            newExperience.className = 'experience-item mb-3';
+            newExperience.innerHTML = `
+                <label for="jobType" class="form-label">Job Type</label>
+                <select class="form-select" required>
+                    <option value="full-time">Full-Time</option>
+                    <option value="part-time">Part-Time</option>
+                    <option value="contract">Contract</option>
+                </select>
+                <div class="invalid-feedback">Please select your job type.</div>
+                <label for="duration" class="form-label">Duration (e.g., 2 years)</label>
+                <input type="text" class="form-control" placeholder="Enter the duration" required>
+                <div class="invalid-feedback">Please enter the duration of your job.</div>
+                <label for="experienceDescription" class="form-label">Work Description</label>
+                <textarea class="form-control" rows="3" placeholder="Describe your work experience" required></textarea>
+                <div class="invalid-feedback">Please enter a description of your work experience.</div>
+            `;
+            experienceContainer.appendChild(newExperience);
+        }
+
+        function addEducation() {
+            const educationContainer = document.getElementById('education-container');
+            const newEducation = document.createElement('div');
+            newEducation.className = 'education-item mb-3';
+            newEducation.innerHTML = `
+                <label for="educationYear" class="form-label">Year</label>
+                <input type="text" class="form-control mb-2" placeholder="Enter the year" required>
+                <label for="educationType" class="form-label">Type of Education</label>
+                <input type="text" class="form-control mb-2" placeholder="Enter the type of education" required>
+                <label for="educationPlace" class="form-label">Place of Education</label>
+                <input type="text" class="form-control mb-2" placeholder="Enter the place of education" required>
+                <label for="educationResult" class="form-label">Result</label>
+                <input type="text" class="form-control mb-2" placeholder="Enter the result" required>
+            `;
+            educationContainer.appendChild(newEducation);
+        }
+
+        function generateResume() {
+            const resumeOutput = document.getElementById('resume-output');
+            resumeOutput.innerHTML = `
+                <h2>${document.getElementById('name').value}</h2>
+                <img src="${URL.createObjectURL(document.getElementById('profilePicture').files[0])}" alt="Profile Picture">
+                <h4>Contact Information</h4>
+                <p>Email: ${document.getElementById('email').value}</p>
+                <p>Phone: ${document.getElementById('phone').value}</p>
+                <p>Address: ${document.getElementById('address').value}</p>
+                <p>Social Media: ${document.getElementById('socialMedia').value}</p>
+                <h4>Personal Description</h4>
+                <p>${document.getElementById('personalDescription').value}</p>
+                <h4>Soft Skills</h4>
+                <p>${document.getElementById('softSkills').value}</p>
+                <h4>Technical Skills</h4>
+                <p>${document.getElementById('skills').value}</p>
+                <h4>Certificates</h4>
+                <p>${document.getElementById('certificates').value}</p>
+                <h4>Involvement</h4>
+                <p>${document.getElementById('involvement').value}</p>
+                <h4>Work Experience</h4>
+            `;
+
+            const experienceItems = document.querySelectorAll('.experience-item');
+            experienceItems.forEach(item => {
+                const jobType = item.querySelector('select').value;
+                const duration = item.querySelector('input[type="text"]').value;
+                const description = item.querySelector('textarea').value;
+                resumeOutput.innerHTML += `<p>${jobType} - ${duration}: ${description}</p>`;
+            });
+
+            resumeOutput.innerHTML += '<h4>Education</h4>';
+            const educationItems = document.querySelectorAll('.education-item');
+            educationItems.forEach(item => {
+                const year = item.querySelector('input[placeholder="Enter the year"]').value;
+                const type = item.querySelector('input[placeholder="Enter the type of education"]').value;
+                const place = item.querySelector('input[placeholder="Enter the place of education"]').value;
+                const result = item.querySelector('input[placeholder="Enter the result"]').value;
+                resumeOutput.innerHTML += `<p>${year}: ${type} at ${place}, Result: ${result}</p>`;
+            });
+        }
+
+        function downloadResume() {
+            const pdf = new jsPDF();
+            const resumeOutput = document.getElementById('resume-output');
+            pdf.text(resumeOutput.innerText, 10, 10);
+            pdf.save('resume.pdf');
+        }
+    </script>
+</body>
+</html>
